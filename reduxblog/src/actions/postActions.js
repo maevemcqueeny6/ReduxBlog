@@ -1,4 +1,4 @@
-import { FETCH_POST, NEW_POST, FETCH_POSTS } from './types';
+import { NEW_POST, FETCH_POSTS } from './types';
 
 // thunk middleware allows us to call the disapatch function directly so that we can make asynchronous requests 
 
@@ -13,5 +13,20 @@ export function fetchPosts(){
             payload: posts
         }))
     }
+}
 
+export const createPost = (postData) => dispatch => {
+    console.log('yaas')
+    fetch('https://jsonplaceholder.typicode.com/posts', {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify(postData)
+    })
+        .then(res => res.json())
+        .then(post => dispatch({
+            type: NEW_POST,
+            payload: post
+        }));
 }
